@@ -24,7 +24,7 @@ void LimpiarPantalla() {
 // Funcion para cambiar el color de la consola
 #pragma region CambiarColor
 void CambiarColoraBlanco() {
-    system("color F0");  
+    system("color F0");
     Sleep(200);
     system("color 07");
 }
@@ -56,9 +56,9 @@ void CambiaColorRojo()
 }
 
 void CambiarColorCafe() {
-	system("color 6F");
-	Sleep(500);
-	system("color 07");
+    system("color 6F");
+    Sleep(500);
+    system("color 07");
 }
 
 #pragma endregion
@@ -77,7 +77,7 @@ public:
     int oxigeno;
     int municion;
     int danioDisparo = 50;
-	int danioCuerpoACuerpo = 20;
+    int danioCuerpoACuerpo = 20;
 
     // Constructor de nuestro jugador para establecer sus estadísticas
     JugadorPrincipal() {
@@ -91,7 +91,17 @@ public:
 #pragma region SeccionesGettersySetters
 public:
     void setMunicion(int _municion) {
-        municion = _municion;
+        if (_municion <= 0)
+        {
+            municion = 0; // Si la munición es menor a 0, se establece en 0
+            CambiaColorRojo();
+            cout << "Te has quedado sin balas, has perdido ya que una orda de alienigenas te han matado ya que tus puños no fueron suficiente ante tal fuerza.\n";
+            exit(0); // Termina el juego si la munición es menor o igual a 0
+        }
+        else
+        {
+            municion = _municion; // Si la munición es mayor a 0, se establece el valor
+        }
     }
 
     int getMunicion() {
@@ -99,28 +109,49 @@ public:
     }
 
     void setOxigeno(int _oxigeno) {
-        oxigeno = _oxigeno;
+        if (_oxigeno <= 0) {
+            oxigeno = 0;
+            cout << "Te has quedado sin oxígeno. Has muerto.\n";
+            exit(0);
+        }
+        else {
+            oxigeno = _oxigeno;
+        }
     }
 
     int getOxigeno() {
         return oxigeno;
     }
 
-    void setProgresoInvestigacion(int _progresoInvestigacion) {
-        progresoInvestigacion = _progresoInvestigacion;
+
+
+    void setProgresoInvestigacion(int _progresoInvestigacion)
+    {
+        if (_progresoInvestigacion > 100)
+        {
+            progresoInvestigacion = 100; // Limita el progreso a un máximo de 100
+            cout << "Has alcanzado el máximo de progreso de investigación.\n";
+            system("pause");
+            exit(0); // Termina el juego si el progreso es mayor a 100
+
+        }
+        else
+        {
+            progresoInvestigacion = _progresoInvestigacion;
+        }
     }
 
     int getProgresoInvestigacion() {
         return progresoInvestigacion;
     }
 
-	void setDanioCuerpoACuerpo(int _danioCuerpoACuerpo) {
-		danioCuerpoACuerpo = _danioCuerpoACuerpo;
-	}
+    void setDanioCuerpoACuerpo(int _danioCuerpoACuerpo) {
+        danioCuerpoACuerpo = _danioCuerpoACuerpo;
+    }
 
-	int getDanioCuerpoACuerpo() {
-		return danioCuerpoACuerpo;
-	}
+    int getDanioCuerpoACuerpo() {
+        return danioCuerpoACuerpo;
+    }
 #pragma endregion
 
 #pragma region AleatorizarySemilla
@@ -141,17 +172,17 @@ public:
         cout << "Ahora elige como quieres afrontar a los alienigenas:\n\n";
         cout << "1.Atacar\n2.Contactar con ellos\n3.Tengo miedo, ya me quiero ir\n";
         cout << "\n/////////////////////////////////////////  Selecciona una opción (1-3)  ///////////////////////////////////////////////" << endl;
-		cout << "\nOpcion elegida: ";
+        cout << "\nOpcion elegida: ";
         cin >> opcionHistoriaElegida;
         switch (opcionHistoriaElegida)
         {
         case 1:
-			CambiaColorRojo();
+            CambiaColorRojo();
             cout << "\nHas decidido atacar a los alienigenas, sin embargo al estar cerca de ellos, ellos ya se han ido,\npero logras ver que se meten a un tunel subterraneo y decides seguirlos.\n";
             LimpiarPantalla();
             break;
         case 2:
-			CambiarColorPurpura();
+            CambiarColorPurpura();
             cout << "\nHas decidido contactar con ellos, sin embargo tu IA espacial no logra decodificar su idioma,\npero logras ver que se meten a un tunel subterraneo y decides seguirlos.\n";
             LimpiarPantalla();
             break;
@@ -164,13 +195,13 @@ public:
             }
             break;
         }
-       
+
     }
 
 
     // Función para imprimir estadísticas del personaje
     void MostrarInventario() {
-		cout << " \n\n||||||||||INVENTARIO|||||||||||\n\n";
+        cout << " \n\n||||||||||INVENTARIO|||||||||||\n\n";
         cout << "Nombre del Jugador: " << nombreJugador << endl;
         cout << "Oxigeno: " << oxigeno << endl;
         cout << "Municion: " << municion << endl;
@@ -224,7 +255,12 @@ public:
     // Funciones para establecer y obtener las estadísticas del alienígena
 #pragma region SeccionesGettersySettersAlienigena
     void setVidaAlienigena(int _vidaAlienigena) {
-        vidaAlienigena = _vidaAlienigena;
+        if (_vidaAlienigena < 0) {
+            vidaAlienigena = 0;
+        }
+        else {
+            vidaAlienigena = _vidaAlienigena;
+        }
     }
 
     int getVidaAlienigena() {
@@ -242,51 +278,78 @@ public:
 };
 
 
-/////////////////////////////////////////////
-/////////Funciones fuera de clases///////////
-////////////////////////////////////////////
-
-//Funcion para atacar al alienigena con disparo
-void DanioDisparoAlAlienigena(JugadorPrincipal& _astronauta, Alienigena& _alienigena) {
-    if ((_alienigena.getVidaAlienigena() - _astronauta.danioDisparo) <= 0)
-    {
-        _alienigena.setVidaAlienigena(0);
-    }
-    else
-    {
-        _alienigena.setVidaAlienigena(_alienigena.getVidaAlienigena() - _astronauta.danioDisparo);
-    }
-}
-
-//Funcion para atacar al alienigena con cuerpo a cuerpo
-void DanioAtaqueCuerpoACuerpoAlAlienigena(JugadorPrincipal& _astronauta, Alienigena& _alienigena) {
-    if ((_alienigena.getVidaAlienigena() - _astronauta.getDanioCuerpoACuerpo()) <= 0) {
-        _alienigena.setVidaAlienigena(0);
-    }
-    else {
-        _alienigena.setVidaAlienigena(_alienigena.getVidaAlienigena() - _astronauta.getDanioCuerpoACuerpo());
-    }
-}
 
 
-// Funcion para saber si alien muere
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////FUNCIONES FUERA DE CLASES///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// Funcion para saber si alien muere y sumar puntos de progreso 
 bool AlienMuere(Alienigena& _alienigenaMuerto, JugadorPrincipal& _astronauta) {
 
     if (_alienigenaMuerto.getVidaAlienigena() <= 0) {
         cout << "\n¡El alienígena ha muerto por skill issue :(!\n";
-        _astronauta.setProgresoInvestigacion(_astronauta.getProgresoInvestigacion() + 10);
-		_astronauta.MostrarInventario();
-		return true; // El alienígena ha muerto
+        _astronauta.setProgresoInvestigacion(_astronauta.getProgresoInvestigacion() + 20);
+        _astronauta.MostrarInventario();
+        return true; // El alienígena ha muerto
     }
     else {
-		return false; // El alienígena sigue vivo
+        return false; // El alienígena sigue vivo
     }
 
+
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////////SISTEMA DE COMBATE///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//Creamos funcion Disparar Jugador
+void Disparar(JugadorPrincipal& _astronauta, Alienigena& _alienigena)
+{
+    _alienigena.setVidaAlienigena(_alienigena.getVidaAlienigena() - _astronauta.danioDisparo); // Hacemos la operacion
+    cout << "\nHas decidido dispararle al alienígena, generándole 50 de daño.\n";
+    cout << "Vida Alienígena: " << _alienigena.getVidaAlienigena() << " de vida\n";
+    _astronauta.setMunicion(_astronauta.getMunicion() - 1);
+    cout << "Municion Restante: " << _astronauta.getMunicion() << " de munición\n";
+
+
+}
+
+//Creamos funcion AtaqueCuerpoACuerpo Jugador
+void AtaqueCuerpoACuerpo(JugadorPrincipal& _astronauta, Alienigena& _alienigena)
+{
+    _alienigena.setVidaAlienigena(_alienigena.getVidaAlienigena() - _astronauta.getDanioCuerpoACuerpo()); // Hacemos la operacion
+    cout << "\nHas decidido atacar cuerpo a cuerpo al alienígena, generándole 20 de daño.\n";
+    cout << "Vida Alienígena: " << _alienigena.getVidaAlienigena() << " de vida\n";
+
+}
+
+//Creamos funcion para que el alienigena ataque al jugador
+void AtaqueAlienigena(JugadorPrincipal& _astronauta, Alienigena& _alienigena)
+{
+
+
+    if (!AlienMuere)
+    {
+        _astronauta.setOxigeno(_astronauta.getOxigeno() - _alienigena.getAtaqueAlienigena()); // Hacemos la operacion
+        cout << "\nEl alienígena te ha atacado, generándote " << _alienigena.getAtaqueAlienigena() << " de daño.\n";
+        cout << "Oxigeno Restante: " << _astronauta.getOxigeno() << " de oxígeno\n";
+    }
+    else
+    {
+        AlienMuere(_alienigena, _astronauta); // Si el alienigena muere, se llama a la funcion AlienMuere
+    }
+
+
+}
+
+
 
 //Creamos funcion para seleccionar la accion que nuestro jugador hara para juntar puntos de investigacion 
 void OpcionInteraccionSeleccionada(JugadorPrincipal& _astronauta, Alienigena& _alienigena) {
     int opcionSeleccionada;
+
 
     while (!AlienMuere(_alienigena, _astronauta)) {
         cout << "Selecciona cómo quieres interactuar contra el alienígena:\n\n";
@@ -296,19 +359,15 @@ void OpcionInteraccionSeleccionada(JugadorPrincipal& _astronauta, Alienigena& _a
 
         switch (opcionSeleccionada) {
         case 1:
-            DanioDisparoAlAlienigena(_astronauta, _alienigena);
+            Disparar(_astronauta, _alienigena);
+            AtaqueAlienigena(_astronauta, _alienigena); // El alienígena ataca al jugador después de que el jugador dispare
             CambiarColoraBlanco();
-            cout << "\nHas decidido dispararle al alienígena, generándole 50 de daño.\n";
-            cout << "Vida Alienígena: " << _alienigena.getVidaAlienigena() << " de vida\n";
-            _astronauta.setMunicion(_astronauta.getMunicion() - 1);
-            cout << "Municion Restante: " << _astronauta.getMunicion() << " de munición\n";
+
             break;
 
         case 2:
-            DanioAtaqueCuerpoACuerpoAlAlienigena(_astronauta, _alienigena);
+            AtaqueCuerpoACuerpo(_astronauta, _alienigena);
             CambiarColoraAmarillo();
-            cout << "\nHas decidido atacar cuerpo a cuerpo al alienígena, generándole 20 de daño.\n";
-            cout << "Vida Alienígena: " << _alienigena.getVidaAlienigena() << " de vida\n";
             break;
 
         case 3:
@@ -333,18 +392,20 @@ void OpcionInteraccionSeleccionada(JugadorPrincipal& _astronauta, Alienigena& _a
         }
     }
 
-    
+
 }
 
 
-// ============================
-// Historia principal del juego
-// ============================
-void HistoriaPrincipal(JugadorPrincipal& _astronauta, Alienigena& _alienigena) {
+
+///////////////////////////////////////////////////////////////////////////////////////////// Historia principal del juego ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void HistoriaPrincipal(JugadorPrincipal& _astronauta, Alienigena& _alienigena)
+{
     cout << "BIENVENIDO A SPACE ROCKS\n\n";
     cout << "Introduce tu nombre: ";
+    cin.ignore(); // Limpiar buffer antes de getline
     getline(cin, _astronauta.nombreJugador);
-	CambiarColorVerde();
+    CambiarColorVerde();
     cout << "Bienvenido a bordo " << _astronauta.nombreJugador << "\n";
     LimpiarPantalla();
     cout << "Has llegado al espacio despues de 9 largos meses de viaje del planeta Tierra al planeta Marte.\n";
@@ -355,25 +416,25 @@ void HistoriaPrincipal(JugadorPrincipal& _astronauta, Alienigena& _alienigena) {
     cout << "Has decidido seguir a los alienigenas, sin embargo no sabes que te espera en el tunel subterraneo.\n";
     LimpiarPantalla();
     cout << "Has llegado a donde estaban los alienigenas, te encuentras de espalda a un solo alienigena revisando el terreno" << endl;
-	OpcionInteraccionSeleccionada(_astronauta, _alienigena);
-	
+    OpcionInteraccionSeleccionada(_astronauta, _alienigena);
+
 
 }
 
-// ============================
-// Función principal
-// ============================
+
+///////////////////////////////////////////////////////////////////////////////////////////// MAIN /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 int main() {
 
-	// Configuración de la localización para permitir caracteres especiales
+    // Configuración de la localización para permitir caracteres especiales
     setlocale(LC_ALL, "");
 
 
     JugadorPrincipal astronauta;
     Alienigena alienigena;
-    
-	HistoriaPrincipal(astronauta, alienigena);
-	
-	
+    OpcionInteraccionSeleccionada(astronauta, alienigena);
+    //HistoriaPrincipal(astronauta, alienigena);
+
+
 
 }
