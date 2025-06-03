@@ -111,9 +111,7 @@ public:
     void setOxigeno(int _oxigeno) {
         if (_oxigeno <= 0) {
             oxigeno = 0;
-            cout << "Te has quedado sin oxígeno. Has muerto.\n";
-            exit(0);
-        }
+		} // Si el oxígeno es menor o igual a 0, se establece en 0
         else {
             oxigeno = _oxigeno;
         }
@@ -237,13 +235,23 @@ class Alienigena {
 public:
     string nombreAlienigena;
     int vidaAlienigena;
-    int ataqueAlienigena = 25;
+    int ataqueAlienigena;
 
     //Constructor Alienigena
-    Alienigena() {
+    Alienigena() 
+    {
         nombreAlienigena = "Alienigena";
         vidaAlienigena = 100;
         ataqueAlienigena = 20;
+    }
+
+    Alienigena(string _alienFinal) 
+    {
+        if (_alienFinal == _alienFinal)
+        {
+			vidaAlienigena = 500; // Vida del alienígena final
+			ataqueAlienigena = 50; // Ataque del alienígena final
+        }
     }
 
     void MostrarEstadisticasAlienigena() {
@@ -285,6 +293,25 @@ public:
 
 /////////////////////////////////////////////////////////////////////////////////////////////FUNCIONES FUERA DE CLASES///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+//Funcion para saber si el jugador muere
+bool JugadorMuere(JugadorPrincipal& _jugadorMuerto, Alienigena& _alienigena) 
+{
+    if (_jugadorMuerto.getOxigeno() <= 0) 
+    {
+		cout << "\n¡Has muerto!\n";
+		cout << "Progreso de investigación: " << _jugadorMuerto.getProgresoInvestigacion() << "\n";
+		return true; // El jugador ha muerto
+	}
+	else
+	{
+		return false; // El jugador sigue vivo
+    
+    }
+
+
+}
+
+
 
 // Funcion para saber si alien muere y sumar puntos de progreso 
 bool AlienMuere(Alienigena& _alienigenaMuerto, JugadorPrincipal& _astronauta) {
@@ -292,14 +319,12 @@ bool AlienMuere(Alienigena& _alienigenaMuerto, JugadorPrincipal& _astronauta) {
     if (_alienigenaMuerto.getVidaAlienigena() <= 0) {
         cout << "\n¡El alienígena ha muerto por skill issue :(!\n";
         _astronauta.setProgresoInvestigacion(_astronauta.getProgresoInvestigacion() + 20);
-        _astronauta.MostrarInventario();
         return true; // El alienígena ha muerto
     }
-    else {
+    else 
+    {
         return false; // El alienígena sigue vivo
     }
-
-
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////SISTEMA DE COMBATE///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -328,57 +353,50 @@ void AtaqueCuerpoACuerpo(JugadorPrincipal& _astronauta, Alienigena& _alienigena)
 //Creamos funcion para que el alienigena ataque al jugador
 void AtaqueAlienigena(JugadorPrincipal& _astronauta, Alienigena& _alienigena)
 {
-
-
-    if (!AlienMuere)
-    {
-        _astronauta.setOxigeno(_astronauta.getOxigeno() - _alienigena.getAtaqueAlienigena()); // Hacemos la operacion
-        cout << "\nEl alienígena te ha atacado, generándote " << _alienigena.getAtaqueAlienigena() << " de daño.\n";
-        cout << "Oxigeno Restante: " << _astronauta.getOxigeno() << " de oxígeno\n";
-    }
-    else
-    {
-        AlienMuere(_alienigena, _astronauta); // Si el alienigena muere, se llama a la funcion AlienMuere
-    }
-
-
+    _astronauta.setOxigeno(_astronauta.getOxigeno() - _alienigena.getAtaqueAlienigena()); // Hacemos la operacion
+    cout << "\nEl alienígena te ha atacado, generándote " << _alienigena.getAtaqueAlienigena() << " de daño.\n";
+    cout << "Oxigeno Restante: " << _astronauta.getOxigeno() << " de oxígeno\n";
 }
 
 
 
 //Creamos funcion para seleccionar la accion que nuestro jugador hara para juntar puntos de investigacion 
 void OpcionInteraccionSeleccionada(JugadorPrincipal& _astronauta, Alienigena& _alienigena) {
-    int opcionSeleccionada;
-
-
-    while (!AlienMuere(_alienigena, _astronauta)) {
+    while (!AlienMuere(_alienigena, _astronauta) && !JugadorMuere(_astronauta, _alienigena)) {
+        // Aquí va la lógica de mostrar menú y pedir opción
         cout << "Selecciona cómo quieres interactuar contra el alienígena:\n\n";
-        cout << "Opción 1: Disparar\nOpción 2: Atacar cuerpo a cuerpo\nOpción 3: Abrir Caja de Riesgo -10 Puntos de Investigacion\nOpcion 4: Mostrar Inventario\n";
-        cout << "\n/////////////////////////////////////////  Selecciona una opción (1-4)  /////////////////////////////////////////" << endl;
+        cout << "Opción 1: Disparar\nOpción 2: Atacar cuerpo a cuerpo\nOpción 3: Abrir Caja de Riesgo -10 Puntos de Investigacion\nOpción 4: Mostrar Inventario\n";
+        cout << "\n/////////////////////////////////////////  Selecciona una opción (1-4)  ///////////////////////////////////////////////////////////////////////////////\n";
+        int opcionSeleccionada;
         cin >> opcionSeleccionada;
 
         switch (opcionSeleccionada) {
         case 1:
             Disparar(_astronauta, _alienigena);
-            AtaqueAlienigena(_astronauta, _alienigena); // El alienígena ataca al jugador después de que el jugador dispare
+            if (!AlienMuere(_alienigena, _astronauta)) {
+                AtaqueAlienigena(_astronauta, _alienigena);
+            }
             CambiarColoraBlanco();
-
             break;
 
         case 2:
             AtaqueCuerpoACuerpo(_astronauta, _alienigena);
+            if (!AlienMuere(_alienigena, _astronauta)) {
+                AtaqueAlienigena(_astronauta, _alienigena);
+            }
             CambiarColoraAmarillo();
             break;
 
         case 3:
             if (_astronauta.getProgresoInvestigacion() < 10) {
                 cout << "No tienes suficientes puntos de investigación para abrir la Caja de Riesgo.\n";
-                break;
             }
-            _astronauta.setProgresoInvestigacion(_astronauta.getProgresoInvestigacion() - 10);
-            CambiarColorPurpura();
-            cout << "\nHas decidido abrir la Caja de Riesgo.\n";
-            _astronauta.CajaDeRiesgoUnion();
+            else {
+                _astronauta.setProgresoInvestigacion(_astronauta.getProgresoInvestigacion() - 10);
+                CambiarColorPurpura();
+                cout << "\nHas decidido abrir la Caja de Riesgo.\n";
+                _astronauta.CajaDeRiesgoUnion();
+            }
             break;
 
         case 4:
@@ -391,9 +409,12 @@ void OpcionInteraccionSeleccionada(JugadorPrincipal& _astronauta, Alienigena& _a
             break;
         }
     }
-
-
 }
+
+
+
+
+
 
 
 
@@ -416,7 +437,8 @@ void HistoriaPrincipal(JugadorPrincipal& _astronauta, Alienigena& _alienigena)
     cout << "Has decidido seguir a los alienigenas, sin embargo no sabes que te espera en el tunel subterraneo.\n";
     LimpiarPantalla();
     cout << "Has llegado a donde estaban los alienigenas, te encuentras de espalda a un solo alienigena revisando el terreno" << endl;
-    OpcionInteraccionSeleccionada(_astronauta, _alienigena);
+    OpcionInteraccionSeleccionada(_astronauta, _alienigena); 
+
 
 
 }
