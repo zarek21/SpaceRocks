@@ -756,7 +756,7 @@ int main() {
 
 	JugadorPrincipal _astronauta; // Creamos un objeto de la clase JugadorPrincipal
 	Alienigena _alienigena; // Creamos un objeto de la clase Alienigena
-	//HistoriaPrincipal(_astronauta, _alienigena); // Llamamos a la función principal de la historia
+	HistoriaPrincipal(_astronauta, _alienigena); // Llamamos a la función principal de la historia
 	
 	return 0; 
 }
