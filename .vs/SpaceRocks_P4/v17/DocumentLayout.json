@@ -1,9 +1,9 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\jorge\\OneDrive\\Escritorio\\UniversidadSemestre2\\ProgramacionOrientadaObjetos\\Parcial4\\SpaceRockGit\\SpaceRocks\\",
+  "WorkspaceRootPath": "C:\\Users\\jorge\\OneDrive\\Escritorio\\SpaceRocks\\SpaceRocks\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{AE57B2F1-0012-4810-B8BA-6C714DF3E6AF}|SpaceRocks_P4\\SpaceRocks_P4.vcxproj|C:\\Users\\jorge\\OneDrive\\Escritorio\\UniversidadSemestre2\\ProgramacionOrientadaObjetos\\Parcial4\\SpaceRockGit\\SpaceRocks\\SpaceRocks_P4\\SpaceRocks_P4.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "AbsoluteMoniker": "D:0:0:{AE57B2F1-0012-4810-B8BA-6C714DF3E6AF}|SpaceRocks_P4\\SpaceRocks_P4.vcxproj|C:\\Users\\jorge\\OneDrive\\Escritorio\\SpaceRocks\\SpaceRocks\\SpaceRocks_P4\\SpaceRocks_P4.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{AE57B2F1-0012-4810-B8BA-6C714DF3E6AF}|SpaceRocks_P4\\SpaceRocks_P4.vcxproj|solutionrelative:SpaceRocks_P4\\SpaceRocks_P4.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
@@ -20,11 +20,11 @@
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "SpaceRocks_P4.cpp",
-              "DocumentMoniker": "C:\\Users\\jorge\\OneDrive\\Escritorio\\UniversidadSemestre2\\ProgramacionOrientadaObjetos\\Parcial4\\SpaceRockGit\\SpaceRocks\\SpaceRocks_P4\\SpaceRocks_P4.cpp",
+              "DocumentMoniker": "C:\\Users\\jorge\\OneDrive\\Escritorio\\SpaceRocks\\SpaceRocks\\SpaceRocks_P4\\SpaceRocks_P4.cpp",
               "RelativeDocumentMoniker": "SpaceRocks_P4\\SpaceRocks_P4.cpp",
-              "ToolTip": "C:\\Users\\jorge\\OneDrive\\Escritorio\\UniversidadSemestre2\\ProgramacionOrientadaObjetos\\Parcial4\\SpaceRockGit\\SpaceRocks\\SpaceRocks_P4\\SpaceRocks_P4.cpp",
+              "ToolTip": "C:\\Users\\jorge\\OneDrive\\Escritorio\\SpaceRocks\\SpaceRocks\\SpaceRocks_P4\\SpaceRocks_P4.cpp",
               "RelativeToolTip": "SpaceRocks_P4\\SpaceRocks_P4.cpp",
-              "ViewState": "AgIAAOECAAAAAAAAAAAAAPYCAAABAAAAAAAAAA==",
+              "ViewState": "AgIAANYCAAAAAAAAAADwv+YCAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-06-03T18:56:32.77Z",
               "EditorCaption": ""
